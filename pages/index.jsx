@@ -7,13 +7,14 @@ import abi from "../utils/contractABI.json";
 const Home = () => {
   const contractAddress = "0x5430a0B6C11f870571ffA891d59dec8C4608Ea9A";
   const [minted, setMinted] = useState([]);
+  const [queries, setQueries] = useState([]);
 
   useEffect(() => {
     init();
   }, []);
 
   function hexToDec(hexString) {
-    return parseInt(hexString, 16);
+    return parseInt(hexString, 16) / 1000000;
   }
 
   const init = async () => {
@@ -31,6 +32,11 @@ const Home = () => {
       ],
     };
 
+    const getBlockTimeStamp = (blockNumber) => {
+      const block = provider.getBlock(blockNumber);
+      return block.timestamp;
+    };
+
     const steps = Math.ceil(block / 100000);
 
     for (let n = 0; n < steps; n++) {
@@ -39,21 +45,22 @@ const Home = () => {
         (steps - 1) * 100000,
         steps * 100000
       );
-      const minted = queries.map((query) => {
-        return {
-          block: query.blockNumber,
-          tx: query.transactionHash,
-          amount: parseInt(query.args.amount._hex, 16) / 1000000,
-          to: query.args.to,
-        };
+
+      setQueries((prev) => [...prev, ...queries]);
+
+      queries.map((query) => {
+        setMinted((prev) => [
+          ...prev,
+          {
+            to: query.args.to,
+            amount: hexToDec(query.args.amount._hex),
+            txId: query.transactionHash,
+            blockNumber: query.blockNumber,
+          },
+        ]);
       });
-      setMinted((prev) => [...prev, ...minted]);
     }
   };
-
-  useEffect(() => {
-    console.log(minted);
-  }, [minted]);
 
   return (
     <div className="p-4 h-screen">
