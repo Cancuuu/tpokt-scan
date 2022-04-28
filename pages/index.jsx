@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import mintedTxs from "../public/contractData/mintedTxsData.json";
 // import { hexToDec } from "../lib/getData";
-import { Bar } from "react-chartjs-2";
+// import { Bar } from "react-chartjs-2";
 import { Chart as ChartJs } from "chart.js/auto";
 import { hexToDec, getBlockTimeStamp } from "../lib/getData";
 import {
-  LineChart,
+  BarChart,
   CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
   Legend,
   Line,
+  Bar,
+  ResponsiveContainer,
 } from "recharts";
 
 const Home = () => {
@@ -21,7 +23,8 @@ const Home = () => {
   const [totalTxs, setTotalTxs] = useState([]);
 
   const destructureTxsArray = () => {
-    const mintedCopy = mintedTxs.slice(0, 1);
+    setMinted([]);
+    const mintedCopy = mintedTxs.slice(0, 2);
 
     mintedCopy.forEach((array) => {
       const txs = array.map((tx) => {
@@ -45,11 +48,9 @@ const Home = () => {
   }, [minted]);
 
   return (
-    <div className="p-4 h-screen">
-      <div className="w-[50%]">
-        <LineChart
-          width={1500}
-          height={900}
+    <div className="py-4 h-screen flex justify-center items-center bg-gradient-to-r from-orange to-yellow">
+      <ResponsiveContainer width="100%" height={700}>
+        <BarChart
           data={minted}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
@@ -58,9 +59,9 @@ const Home = () => {
           <YAxis dataKey="amount" />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="amount" stroke="#82ca9d" />
-        </LineChart>
-      </div>
+          <Bar dataKey="amount" stroke="#82ca9d" />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 };
