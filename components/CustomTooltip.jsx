@@ -8,4 +8,5 @@ export const CustomTooltip = ({ active, payload, label }) => {
       </div>
     );
   }
+  return null;
 };

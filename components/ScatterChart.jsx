@@ -7,10 +7,9 @@ import {
   Scatter,
   ScatterChart,
 } from "recharts";
-
 import { CustomTooltip } from "./CustomTooltip";
 
-const ScatterComponent = ({ data }: any) => {
+const ScatterComponent = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height={700} className="mt-16">
       <ScatterChart margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
@@ -27,11 +26,7 @@ const ScatterComponent = ({ data }: any) => {
           tickFormatter={(amount) => `${amount / 1000}k`}
         />
         <Legend />
-        <Tooltip
-          content={
-            <CustomTooltip active={false} payload={undefined} label={""} />
-          }
-        />
+        <Tooltip content={<CustomTooltip />} />
         <CartesianGrid strokeDasharray="3 3" vertical={false} />
       </ScatterChart>
     </ResponsiveContainer>
