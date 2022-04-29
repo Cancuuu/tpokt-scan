@@ -5,10 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {},
-    colors: {
-      orange: "#fbab7e",
-      yellow: "#f7ce68",
-    },
+    // colors: {
+    //   orange: "#fbab7e",
+    //   yellow: "#f7ce68",
+    // },
   },
   plugins: [],
 };
